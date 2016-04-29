@@ -2,7 +2,6 @@
 
 namespace App\Validators;
 
-use Slim\Http\Request;
 use Valitron\Validator;
 
 abstract class AbstractValidator
