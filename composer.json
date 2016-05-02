@@ -1,19 +1,20 @@
 {
-    "name": "damianopetrungaro/slim-boilerplate",
-    "require": {
-        "slim/slim": "^3.0",
-        "php-di/slim-bridge": "^1.0",
-        "vlucas/valitron": "^1.2"
-    },
-    "autoload": {
-        "psr-4": {
-            "App\\": "app/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Damiano Petrungaro",
-            "email": "damianopetrungaro@gmail.com"
-        }
-    ]
+  "name": "damianopetrungaro/slim-boilerplate",
+  "require": {
+    "slim/slim": "^3.0",
+    "php-di/slim-bridge": "^1.0",
+    "vlucas/valitron": "^1.2",
+    "ramsey/uuid": "^3.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Damiano Petrungaro",
+      "email": "damianopetrungaro@gmail.com"
+    }
+  ]
 }

@@ -1,14 +1,17 @@
 <?php
 namespace App\Controllers;
 
+use App\Responses\ApiResponse;
 use App\Validators\Users\StoreUserValidator;
 use App\Validators\Users\UpdateUserValidator;
 
 class UserController
 {
+    private $apiResponse;
 
-    public function __construct()
+    public function __construct(ApiResponse $apiResponse)
     {
+        $this->apiResponse = $apiResponse;
     }
 
 
@@ -24,7 +27,11 @@ class UserController
 
     public function store(StoreUserValidator $validator)
     {
-        var_dump($validator);
+        if(!$validator->validate()) {
+            return $this->apiResponse->errorValidation($validator->errors());
+        }
+
+        var_dump('Passed');
         die();
     }
 

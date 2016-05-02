@@ -2,6 +2,7 @@
 
 namespace App\Validators;
 
+use App\Responses\ApiResponse;
 use Slim\Http\Request;
 use Valitron\Validator;
 
@@ -14,23 +15,24 @@ abstract class AbstractValidator
     public function __construct(Validator $validator)
     {
         $this->validator = $validator;
-        $this->validate();
     }
 
 
-    protected function validate()
+    public function validate()
     {
         foreach ($this->rules() as $rule) {
-            //@TODO: Fix the rule
-            $this->validator->rule($rule);
+
+            $args = array_splice($rule, 0, count($rule), true);
+            call_user_func_array([ $this->validator, 'rule' ], $args);
         }
 
-        if ( ! $this->validator->validate()) {
-            var_dump($this->validator->errors());
-            die();
-        }
+        return $this->validator->validate();
+    }
 
-        return true;
+
+    public function errors()
+    {
+        return $this->validator->errors();
     }
 
 
