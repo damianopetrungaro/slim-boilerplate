@@ -6,8 +6,13 @@ use App\Validators\AbstractValidator;
 
 class UpdateUserValidator extends AbstractValidator
 {
-	public function rules()
-	{
-        $this->validate();
+
+    public function rules()
+    {
+        return [
+            [ 'required', [ 'name', 'surname', 'email', 'password' ] ],
+            [ 'email', [ 'email' ] ],
+            [ 'equals', 'password', 'password_confirmation' ]
+        ];
     }
 }

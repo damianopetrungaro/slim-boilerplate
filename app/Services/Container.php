@@ -10,13 +10,14 @@ use Valitron\Validator;
 
 class Container extends App
 {
+
     public function configureContainer(ContainerBuilder $builder)
     {
         $definitions = [
-            Validator::class => function() {
-                return new Validator($_POST, [], 'en');
+            Validator::class               => function () {
+                return new Validator($_POST, [ ], 'en');
             },
-			UserRepositoryInterface::class => function() {
+            UserRepositoryInterface::class => function () {
                 return new PDOUserRepository();
             }
         ];

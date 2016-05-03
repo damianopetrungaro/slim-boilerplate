@@ -6,17 +6,30 @@ use PDO;
 
 class PDOUserRepository implements UserRepositoryInterface
 {
-	protected $db;
 
-	public function __construct()
-	{
-		$this->db = MySqlPDODatabase::getInstance();
-	}
+    protected $db;
 
-	public function index()
-	{
-		$sth = $this->db->prepare("SELECT * FROM users");
-		$sth->execute();
-		return $sth->fetchAll(PDO::FETCH_CLASS, 'App\\Models\\UserModel');
-	}
+
+    public function __construct()
+    {
+        $this->db = MySqlPDODatabase::getInstance();
+    }
+
+
+    public function index($columns = '*')
+    {
+        $query = $this->db->prepare("SELECT $columns FROM users");
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_CLASS, 'App\\Models\\UserModel');
+    }
+
+
+    public function show($id, $columns = '*')
+    {
+        $query = $this->db->prepare("SELECT $columns FROM users WHERE id = :id");
+        $query->execute([ 'id' => $id ]);
+
+        return $query->fetchObject('App\\Models\\UserModel');
+    }
 }
