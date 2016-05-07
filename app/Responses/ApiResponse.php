@@ -12,9 +12,30 @@ class ApiResponse extends Response
     {
         $response                      = [ ];
         $response['id']                = Uuid::uuid1();
+        $response['title']             = 'Validation error';
+        $response['detail']            = 'Some fields are not correctly sent';
         $response['source']['pointer'] = $data;
         $response['status']            = 400;
 
         return $this->withJson($response, 400);
+    }
+
+
+    public function error($title, $message, $status, $data = [])
+    {
+        $response                      = [ ];
+        $response['id']                = Uuid::uuid1();
+        $response['title']             = $title;
+        $response['detail']            = $message;
+        $response['source']['pointer'] = $data;
+        $response['status']            = $status;
+
+        return $this->withJson($response, $status);
+    }
+
+
+    public function success()
+    {
+
     }
 }

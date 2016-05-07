@@ -1,9 +1,7 @@
 <?php
 
 require '../vendor/autoload.php';
-
-$dotenv = new \Dotenv\Dotenv('./../');
-$dotenv->load();
+require '../bootstrap/app.php';
 
 use App\Services\Container;
 
