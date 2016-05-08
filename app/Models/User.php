@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
+
     protected $table = 'users';
 
-    protected $fillable = ['name', 'surname', 'password', 'email'];
+    protected $fillable = [ 'name', 'surname', 'password', 'email' ];
 
-    protected $hidden = ['password'];
+    protected $hidden = [ 'password' ];
 
-    protected $dates = ['updated_at', 'created_at'];
+    protected $dates = [ 'updated_at', 'created_at' ];
 }

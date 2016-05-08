@@ -38,6 +38,7 @@ class UserEloquentRepository implements UserRepositoryInterface
         return $this->model->where('id', $id)->update($data);
     }
 
+
     public function delete($id)
     {
         return $this->model->where('id', $id)->delete();

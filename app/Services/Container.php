@@ -10,10 +10,11 @@ use DI\Bridge\Slim\App;
 
 class Container extends App
 {
+
     public function configureContainer(ContainerBuilder $builder)
     {
         $definitions = [
-            Validator::class => function () {
+            Validator::class               => function () {
                 return new Validator($_POST, [ ], 'en');
             },
             UserRepositoryInterface::class => function () {

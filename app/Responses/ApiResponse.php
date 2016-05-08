@@ -17,12 +17,13 @@ class ApiResponse extends Response
         $response['source']['pointer'] = $data;
         $response['status']            = 400;
 
-        return $this->withJson($response, 400);
+        return $this->withJson([ 'error' => $response ], 400);
     }
 
 
-    public function error($title, $message, $status, $data = [])
+    public function error($title, $message, $status, $data = [ ])
     {
+
         $response                      = [ ];
         $response['id']                = Uuid::uuid1();
         $response['title']             = $title;
@@ -30,12 +31,12 @@ class ApiResponse extends Response
         $response['source']['pointer'] = $data;
         $response['status']            = $status;
 
-        return $this->withJson($response, $status);
+        return $this->withJson([ 'error' => $response ], $status);
     }
 
 
-    public function success()
+    public function success($data, $status = 200)
     {
-
+        return $this->withJson([ 'data' => $data ], $status);
     }
 }

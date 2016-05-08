@@ -2,10 +2,11 @@
 namespace App\Controllers;
 
 use App\Repositories\Users\UserRepositoryInterface;
+use App\Transformers\Users\UserTransformer;
+use App\Validators\Users\UpdateUserValidator;
+use App\Validators\Users\StoreUserValidator;
 use App\Responses\ApiResponse;
 use App\Services\UserService;
-use App\Validators\Users\StoreUserValidator;
-use App\Validators\Users\UpdateUserValidator;
 use Slim\Http\Request;
 
 class UserController
@@ -15,34 +16,42 @@ class UserController
 
     private $userRepository;
 
+    private $userTransformer;
 
-    public function __construct(ApiResponse $apiResponse, UserRepositoryInterface $userRepository)
-    {
-        $this->apiResponse    = $apiResponse;
-        $this->userRepository = $userRepository;
+
+    public function __construct(
+        ApiResponse $apiResponse,
+        UserRepositoryInterface $userRepository,
+        UserTransformer $userTransformer
+    ) {
+        $this->apiResponse     = $apiResponse;
+        $this->userRepository  = $userRepository;
+        $this->userTransformer = $userTransformer;
     }
 
 
     public function index()
     {
         if ( ! $users = $this->userRepository->index()) {
-            return $this->apiResponse->error("Users not found", 'List of user is not available or not exists', 404,
+            return $this->apiResponse->error('Users not found', 'List of user is not available or not exists', 404,
                 $users);
         }
 
-        var_dump($users);
-        return true;
+        $data = $this->userTransformer->collection($users);
+
+        return $this->apiResponse->success($data, 201);
     }
 
 
     public function show($id)
     {
         if ( ! $user = $this->userRepository->show($id)) {
-            return $this->apiResponse->error("User not found", 'The user is not available or not exists', 404, $user);
+            return $this->apiResponse->error('User not found', 'The user is not available or not exists', 404, $user);
         }
 
-        var_dump($user);
-        return true;
+        $data = $this->userTransformer->item($user);
+
+        return $this->apiResponse->success($data, 201);
     }
 
 
@@ -56,8 +65,9 @@ class UserController
             return $this->apiResponse->error("User not created", 'The user has not been created', 500, $user);
         }
 
-        var_dump($user);
-        return true;
+        $data = $this->userTransformer->item($user);
+
+        return $this->apiResponse->success($data, 201);
     }
 
 
@@ -72,8 +82,7 @@ class UserController
                 $user);
         }
 
-        var_dump($user);
-        return true;
+        return $this->apiResponse->success('User updated');
     }
 
 
@@ -84,7 +93,6 @@ class UserController
                 $user);
         }
 
-        var_dump($user);
-        return true;
+        return $this->apiResponse->success('User deleted');
     }
 }

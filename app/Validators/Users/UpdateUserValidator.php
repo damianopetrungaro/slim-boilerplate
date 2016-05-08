@@ -10,7 +10,7 @@ class UpdateUserValidator extends AbstractValidator
     public function rules()
     {
         return [
-            [ 'required', [ 'name', 'surname'] ]
+            [ 'required', [ 'name', 'surname' ] ]
         ];
     }
 }
