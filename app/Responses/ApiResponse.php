@@ -2,8 +2,8 @@
 
 namespace App\Responses;
 
-use Ramsey\Uuid\Uuid;
 use Slim\Http\Response;
+use Ramsey\Uuid\Uuid;
 
 class ApiResponse extends Response
 {

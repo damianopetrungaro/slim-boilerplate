@@ -6,7 +6,8 @@
     "vlucas/valitron": "^1.2",
     "ramsey/uuid": "^3.4",
     "vlucas/phpdotenv": "^2.2",
-    "illuminate/database": "^5.2"
+    "illuminate/database": "^5.2",
+    "tuupola/slim-jwt-auth": "^2.3"
   },
   "autoload": {
     "psr-4": {

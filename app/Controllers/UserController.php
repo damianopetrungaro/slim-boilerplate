@@ -2,9 +2,9 @@
 namespace App\Controllers;
 
 use App\Repositories\Users\UserRepositoryInterface;
-use App\Transformers\Users\UserTransformer;
 use App\Validators\Users\UpdateUserValidator;
 use App\Validators\Users\StoreUserValidator;
+use App\Transformers\Users\UserTransformer;
 use App\Responses\ApiResponse;
 use App\Services\UserService;
 use Slim\Http\Request;
@@ -39,7 +39,7 @@ class UserController
 
         $data = $this->userTransformer->collection($users);
 
-        return $this->apiResponse->success($data, 201);
+        return $this->apiResponse->success($data);
     }
 
 
@@ -51,7 +51,7 @@ class UserController
 
         $data = $this->userTransformer->item($user);
 
-        return $this->apiResponse->success($data, 201);
+        return $this->apiResponse->success($data);
     }
 
 
