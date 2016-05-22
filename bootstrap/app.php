@@ -5,9 +5,9 @@ use Illuminate\Database\Capsule\Manager;
 $dotenv = new \Dotenv\Dotenv('./../');
 $dotenv->load();
 
-require '../bootstrap/config.php';
+require '../bootstrap/database.php';
 
 $db = new Manager;
-$db->addConnection($config['db']);
+$db->addConnection($database);
 $db->setAsGlobal();
 $db->bootEloquent();
