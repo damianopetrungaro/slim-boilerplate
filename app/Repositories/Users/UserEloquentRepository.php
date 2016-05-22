@@ -16,7 +16,7 @@ class UserEloquentRepository implements UserRepositoryInterface
 
     public function index($columns = [ '*' ])
     {
-        return $this->model->gaet()->all($columns);
+        return $this->model->get()->all($columns);
     }
 
 
