@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../bootstrap/app.php';
 
-use App\Services\Container;
+use App\Providers\Container;
 
 $app = new Container();
 $routes = scandir(__DIR__ . '/../app/Routes/');

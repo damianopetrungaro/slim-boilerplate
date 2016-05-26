@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Services;
+namespace App\Providers;
 
-use App\Repositories\Users\UserRepositoryInterface;
-use App\Repositories\Users\UserEloquentRepository;
-use Slim\Middleware\JwtAuthentication;
-use DI\ContainerBuilder;
-use Valitron\Validator;
 use DI\Bridge\Slim\App;
+use Valitron\Validator;
+use DI\ContainerBuilder;
+use App\Repositories\Users\UserEloquentRepository;
+use App\Repositories\Users\UserRepositoryInterface;
 
 class Container extends App
 {
-
     public function configureContainer(ContainerBuilder $builder)
     {
         $definitions = [

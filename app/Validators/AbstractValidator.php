@@ -2,6 +2,7 @@
 
 namespace App\Validators;
 
+use Illuminate\Database\Capsule\Manager as DB;
 use Valitron\Validator;
 
 abstract class AbstractValidator
@@ -9,9 +10,11 @@ abstract class AbstractValidator
 
     protected $validator;
 
+    abstract public function rules();
 
     public function __construct(Validator $validator)
     {
+        $this->addCustomRules();
         $this->validator = $validator;
     }
 
@@ -33,7 +36,24 @@ abstract class AbstractValidator
         return $this->validator->errors();
     }
 
+    private function addCustomRules()
+    {
+        Validator::addRule('unique', function ($field, $value, array $params, array $fields) {
+            foreach ($params[0] as $table => $column) {
+                if ($result = DB::table($table)->where($column, $value)->get()) {
+                    return false;
+                }
+            }
+            return true;
+        }, " must be unique in our database");
 
-    abstract public function rules();
-
+        Validator::addRule('exists', function ($field, $value, array $params, array $fields) {
+            foreach ($params[0] as $table => $column) {
+                if (!$result = DB::table($table)->where($column, $value)->get()) {
+                    return false;
+                }
+            }
+            return true;
+        }, " must exists in our database");
+    }
 }

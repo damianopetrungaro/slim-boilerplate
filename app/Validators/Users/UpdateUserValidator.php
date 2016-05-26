@@ -6,7 +6,6 @@ use App\Validators\AbstractValidator;
 
 class UpdateUserValidator extends AbstractValidator
 {
-
     public function rules()
     {
         return [
