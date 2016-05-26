@@ -7,7 +7,9 @@
     "ramsey/uuid": "^3.4",
     "vlucas/phpdotenv": "^2.2",
     "illuminate/database": "^5.2",
-    "tuupola/slim-jwt-auth": "^2.3"
+    "tuupola/slim-jwt-auth": "^2.3",
+    "robmorgan/phinx": "^0.5.3",
+    "fzaninotto/faker": "^1.6"
   },
   "autoload": {
     "psr-4": {
