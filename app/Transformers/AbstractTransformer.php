@@ -7,7 +7,7 @@ abstract class AbstractTransformer
 
     public function collection(array $records)
     {
-        return array_map([ $this, 'item' ], $records);
+        return array_map([$this, 'item'], $records);
     }
 
 

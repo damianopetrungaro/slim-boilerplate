@@ -16,16 +16,16 @@ class UserTransformer extends AbstractTransformer
     public function item($user)
     {
         return [
-            'id'         => (int) $user['id'],
+            'id' => (int)$user['id'],
             'attributes' => [
-                'name'    => $user['name'],
+                'name' => $user['name'],
                 'surname' => $user['surname'],
-                'email'   => $user['email'],
+                'email' => $user['email'],
             ],
-            'links'      => [
+            'links' => [
                 [
-                    'self'    => '/users/' . $user['id'],
-                    'related' => [ ],
+                    'self' => '/users/' . $user['id'],
+                    'related' => [],
                 ]
             ],
         ];

@@ -18,12 +18,12 @@ class UserService
 
     public function store(array $input)
     {
-        $data             = [ ];
+        $data = [];
         $data['password'] = md5($input['password']); // Hash password (better if you use a key for hash)
-        $data['name']     = $input['name'];
-        $data['surname']  = $input['surname'];
-        $data['email']    = $input['email'];
-        $user             = $this->userRepository->store($data);
+        $data['name'] = $input['name'];
+        $data['surname'] = $input['surname'];
+        $data['email'] = $input['email'];
+        $user = $this->userRepository->store($data);
 
         return $user;
     }
@@ -31,10 +31,10 @@ class UserService
 
     public function update($id, array $input)
     {
-        $data            = [ ];
-        $data['name']    = $input['name'];
+        $data = [];
+        $data['name'] = $input['name'];
         $data['surname'] = $input['surname'];
-        $user            = $this->userRepository->update($id, $data);
+        $user = $this->userRepository->update($id, $data);
 
         return $user;
     }

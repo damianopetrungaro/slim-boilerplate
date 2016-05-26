@@ -17,7 +17,7 @@ class Container extends App
         $definitions = [
             'settings.displayErrorDetails' => getenv('DEBUG') ?: false,
             Validator::class => function () {
-                return new Validator($_POST, [ ], 'en');
+                return new Validator($_POST, [], 'en');
             },
             UserRepositoryInterface::class => function () {
                 return new UserEloquentRepository(new \App\Models\User());

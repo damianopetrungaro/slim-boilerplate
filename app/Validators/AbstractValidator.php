@@ -21,7 +21,7 @@ abstract class AbstractValidator
         foreach ($this->rules() as $rule) {
 
             $args = array_splice($rule, 0, count($rule), true);
-            call_user_func_array([ $this->validator, 'rule' ], $args);
+            call_user_func_array([$this->validator, 'rule'], $args);
         }
 
         return $this->validator->validate();

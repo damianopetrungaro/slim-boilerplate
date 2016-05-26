@@ -8,19 +8,20 @@ class UserEloquentRepository implements UserRepositoryInterface
 
     protected $model;
 
+
     public function __construct(User $model)
     {
         $this->model = $model;
     }
 
 
-    public function index($columns = [ '*' ])
+    public function index($columns = ['*'])
     {
         return $this->model->get()->all($columns);
     }
 
 
-    public function show($id, $columns = [ '*' ])
+    public function show($id, $columns = ['*'])
     {
         return $this->model->find($id, $columns);
     }
