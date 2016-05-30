@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Acme\Helpers\Str;
 use App\Acme\Helpers\Mailer;
 use App\Acme\JWT\Manager as JWT;
+use App\Exceptions\GenericException;
 use App\Repositories\Users\UserRepositoryInterface;
 
 class AuthService
@@ -23,11 +24,11 @@ class AuthService
         $email = $input['email'];
         $password = md5($input['password']); // Hash password (better if you use a key for hash)
 
-        if ($user = $this->userRepository->getByEmailAndPassword($email, $password)) {
-            return $user->toArray();
+        if (!$user = $this->userRepository->getByEmailAndPassword($email, $password)) {
+            throw new GenericException('User not found', 'Invalid credentials', 404);
         }
 
-        return false;
+        return $user->toArray();
     }
 
     public function reset(array $input)
@@ -37,11 +38,11 @@ class AuthService
         $password = md5($input['password']);
 
         if (!$user = $this->userRepository->getByEmailAndResetToken($email, $token)) {
-            return ['title' => 'User not found', 'message' => 'Password not updated', 'status' => 404];
+            throw new GenericException('User not found', 'Password not updated', 404);
         }
 
         if (!$this->userRepository->update($user['id'], ['reset_password' => '', 'password' => $password])) {
-            return ['title' => 'Error updating user', 'message' => 'Password not updated', 'status' => 500];
+            throw new GenericException('Error updating user', 'Password not updated', 500);
         }
 
         return true;
@@ -50,19 +51,19 @@ class AuthService
     public function recovery($email)
     {
         if (!$user = $this->userRepository->getByEmail($email)) {
-            return ['title' => 'User not found', 'message' => 'No user was found with this email', 'status' => 404];
+            throw new GenericException('User not found', 'No user was found with this email', 404);
         }
 
         $token = Str::random(55);
 
         if (!$this->userRepository->update($user['id'], ['reset_password' => $token])) {
-            return ['title' => 'Error updating user', 'message' => 'A problem occurred trying to update the user', 'status' => 500];
+            throw new GenericException('Error updating user', 'A problem occurred trying to update the user', 500);
         }
 
         try {
-            Mailer::send('Rest Password', [$email], 'Token is: '.$token);
+            Mailer::send('Rest Password', [$email], 'Token is: ' . $token);
         } catch (\Exception $e) {
-            return ['title' => 'Error sending the email', 'message' => $e->getMessage(), 'status' => 500];
+            throw new GenericException('Error sending the email', $e->getMessage(), 500);
         }
     }
 }

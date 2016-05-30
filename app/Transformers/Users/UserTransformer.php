@@ -9,7 +9,7 @@ class UserTransformer extends AbstractTransformer
     public function item($user)
     {
         return [
-            'id' => (int) $user['id'],
+            'id' => $user['id'],
             'attributes' => [
                 'name' => $user['name'],
                 'surname' => $user['surname'],

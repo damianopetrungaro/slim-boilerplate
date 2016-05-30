@@ -8,6 +8,7 @@ use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Builder;
 use BadMethodCallException;
 use InvalidArgumentException;
+use App\Exceptions\JWTException;
 use Lcobucci\JWT\ValidationData;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 
@@ -56,11 +57,11 @@ class Manager
 
             return $token->getClaims();
         } catch (InvalidArgumentException $e) {
-            throw new Exception('Invalid Token', $e->getMessage(), $e->getCode());
+            throw new JWTException('Invalid Token', $e->getMessage(), $e->getCode());
         } catch (BadMethodCallException $e) {
-            throw new Exception('Parsing Error', $e->getMessage(), $e->getCode());
+            throw new JWTException('Parsing Error', $e->getMessage(), $e->getCode());
         } catch (RuntimeException $e) {
-            throw new Exception('Parsing Error', $e->getMessage(), $e->getCode());
+            throw new JWTException('Parsing Error', $e->getMessage(), $e->getCode());
         }
     }
 }

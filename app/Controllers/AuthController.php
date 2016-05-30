@@ -6,6 +6,7 @@ use Slim\Http\Request;
 use App\Services\AuthService;
 use App\Responses\ApiResponse;
 use App\Acme\JWT\Manager as JWT;
+use App\Exceptions\GenericException;
 use App\Transformers\Users\UserTransformer;
 use App\Validators\Auth\ResetAuthValidator;
 use App\Validators\Auth\LoginAuthValidator;
@@ -30,6 +31,7 @@ class AuthController
     public function logged(UserTransformer $userTransformer)
     {
         $user = $this->jwt->decode();
+
         $data = $userTransformer->item($user);
 
         return $this->apiResponse->success($data, 200);
@@ -41,8 +43,10 @@ class AuthController
             return $this->apiResponse->errorValidation($validator->errors());
         }
 
-        if (!$user = $this->authService->login($request->getParams())) {
-            return $this->apiResponse->error('Login error', 'User not found with this credential', 400);
+        try {
+            $user = $this->authService->login($request->getParams());
+        } catch (GenericException $e) {
+            return $this->apiResponse->error($e->getTitle(), $e->getDetails(), $e->getStatus());
         }
 
         return $this->jwt->encode($user);
@@ -59,10 +63,10 @@ class AuthController
             return $this->apiResponse->errorValidation($validator->errors());
         }
 
-        $result = $this->authService->recovery($request->getParam('email'));
-
-        if (is_array($result)) {
-            return $this->apiResponse->error($result['title'], $result['message'], $result['status']);
+        try {
+            $this->authService->recovery($request->getParam('email'));
+        } catch (GenericException $e) {
+            return $this->apiResponse->error($e->getTitle(), $e->getDetails(), $e->getStatus());
         }
 
         return $this->apiResponse->success(['title' => 'Email sent']);
@@ -74,10 +78,10 @@ class AuthController
             return $this->apiResponse->errorValidation($validator->errors());
         }
 
-        $result = $this->authService->reset($request->getParams());
-
-        if (is_array($result)) {
-            return $this->apiResponse->error($result['title'], $result['message'], $result['status']);
+        try {
+            $this->authService->reset($request->getParams());
+        } catch (GenericException $e) {
+            return $this->apiResponse->error($e->getTitle(), $e->getDetails(), $e->getStatus());
         }
 
         return $this->apiResponse->success(['title' => 'Password updated']);

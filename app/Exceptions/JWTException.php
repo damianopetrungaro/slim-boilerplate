@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Acme\JWT;
+namespace App\Exceptions;
 
-class Exception extends \Exception
+class JWTException extends \Exception
 {
     private $title;
 

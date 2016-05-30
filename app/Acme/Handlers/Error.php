@@ -3,9 +3,9 @@
 namespace App\Acme\Handlers;
 
 use App\Responses\ApiResponse;
+use App\Exceptions\JWTException;
 use Slim\Handlers\Error as BaseError;
 use Psr\Http\Message\ResponseInterface;
-use App\Acme\JWT\Exception as JWTException;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Error extends BaseError
