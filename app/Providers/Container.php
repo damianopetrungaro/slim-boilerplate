@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Acme\JWT\Manager;
 use DI\Bridge\Slim\App;
 use Valitron\Validator;
 use DI\ContainerBuilder;
+use App\Acme\JWT\Manager;
 use App\Acme\JWT\Manager as JWT;
 use Interop\Container\ContainerInterface;
 use App\Repositories\Users\UserEloquentRepository;
@@ -16,7 +16,9 @@ class Container extends App
 	public function configureContainer(ContainerBuilder $builder)
 	{
 		$definitions = [
-			'settings.displayErrorDetails' => getenv('DEBUG') ?: false,
+			'errorHandler' => function () {
+				return new \App\Acme\Handlers\Error(getenv('DEBUG'));
+			},
 			Validator::class => function () {
 				return new Validator($_POST, [], 'en');
 			},

@@ -12,4 +12,9 @@ class Exception extends \Exception
 		$this->title = $title;
 		parent::__construct($message, $code);
 	}
+
+	public function getTitle()
+	{
+		return $this->title;
+	}
 }
