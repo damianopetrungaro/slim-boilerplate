@@ -6,41 +6,47 @@ use App\Models\User;
 class UserEloquentRepository implements UserRepositoryInterface
 {
 
-    protected $model;
+	protected $model;
 
 
-    public function __construct(User $model)
-    {
-        $this->model = $model;
-    }
+	public function __construct(User $model)
+	{
+		$this->model = $model;
+	}
 
 
-    public function index($columns = ['*'])
-    {
-        return $this->model->get()->all($columns);
-    }
+	public function index($columns = ['*'])
+	{
+		return $this->model->get()->all($columns);
+	}
 
 
-    public function show($id, $columns = ['*'])
-    {
-        return $this->model->find($id, $columns);
-    }
+	public function show($id, $columns = ['*'])
+	{
+		return $this->model->find($id, $columns);
+	}
 
 
-    public function store(array $data)
-    {
-        return $this->model->create($data);
-    }
+	public function store(array $data)
+	{
+		return $this->model->create($data);
+	}
 
 
-    public function update($id, array $data)
-    {
-        return $this->model->where('id', $id)->update($data);
-    }
+	public function update($id, array $data)
+	{
+		return $this->model->where('id', $id)->update($data);
+	}
 
 
-    public function delete($id)
-    {
-        return $this->model->where('id', $id)->delete();
-    }
+	public function delete($id)
+	{
+		return $this->model->where('id', $id)->delete();
+	}
+
+
+	public function getByCredential($email, $password)
+	{
+		return $this->model->where('email', $email)->where('password', $password)->first();
+	}
 }

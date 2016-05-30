@@ -45,7 +45,7 @@ abstract class AbstractValidator
 			}
 
 			return true;
-		}, " must be unique in our database");
+		}, "must be unique in our database");
 
 		Validator::addRule('exists', function ($field, $value, array $params, array $fields) {
 			foreach ($params[0] as $table => $column) {
@@ -55,6 +55,6 @@ abstract class AbstractValidator
 			}
 
 			return true;
-		}, " must exists in our database");
+		}, "must exists in our database");
 	}
 }
