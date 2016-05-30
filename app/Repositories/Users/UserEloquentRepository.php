@@ -45,8 +45,20 @@ class UserEloquentRepository implements UserRepositoryInterface
 	}
 
 
-	public function getByCredential($email, $password)
+	public function getByEmailAndPassword($email, $password, $columns = ['*'])
 	{
-		return $this->model->where('email', $email)->where('password', $password)->first();
+		return $this->model->where('email', $email)->where('password', $password)->first($columns);
+	}
+
+
+	public function getByEmail($email, $columns = ['*'])
+	{
+		return $this->model->where('email', $email)->first($columns);
+	}
+
+
+	public function getByEmailAndResetToken($email, $token, $columns = ['*'])
+	{
+		return $this->model->where('email', $email)->where('reset_password', $token)->first($columns);
 	}
 }

@@ -4,12 +4,12 @@ namespace App\Validators\Auth;
 
 use App\Validators\AbstractValidator;
 
-class LoginAuthValidator extends AbstractValidator
+class RecoveryAuthValidator extends AbstractValidator
 {
 	public function rules()
 	{
 		return [
-			['required', ['password', 'email']],
+			['required', ['email']],
 			['exists', 'email', ['users' => 'email']]
 		];
 	}

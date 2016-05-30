@@ -7,7 +7,8 @@ $dotenv->load();
 
 return [
     "paths" => [
-        "migrations" => "application/migrations"
+        "migrations" => "db/migrations",
+        "seeds" => "db/seeds"
     ],
     "environments" => [
         "default_migration_table" => "phinxlog",

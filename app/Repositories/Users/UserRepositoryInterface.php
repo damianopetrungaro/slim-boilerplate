@@ -4,15 +4,19 @@ namespace App\Repositories\Users;
 
 interface UserRepositoryInterface
 {
-	public function index($columns = '*');
-
-	public function show($id, $columns = '*');
+	public function delete($id);
 
 	public function store(array $data);
 
+	public function index($columns = '*');
+
 	public function update($id, array $data);
 
-	public function delete($id);
+	public function show($id, $columns = '*');
 
-	public function getByCredential($email, $password);
+	public function getByEmail($email);
+
+	public function getByEmailAndPassword($email, $password);
+
+	public function getByEmailAndResetToken($email, $token);
 }
