@@ -6,15 +6,12 @@ use App\Repositories\Users\UserRepositoryInterface;
 
 class UserService
 {
-
     private $userRepository;
-
 
     public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
     }
-
 
     public function store(array $input)
     {
@@ -27,7 +24,6 @@ class UserService
 
         return $user;
     }
-
 
     public function update($id, array $input)
     {

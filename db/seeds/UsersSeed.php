@@ -8,7 +8,7 @@ class UsersSeed extends AbstractSeed
     {
         $faker = Faker\Factory::create();
         $data = [];
-        for ($i = 0; $i < 25; $i++) {
+        for ($i = 0; $i < 25; ++$i) {
             $data[] = [
                 'name' => $faker->firstName,
                 'surname' => $faker->lastName,

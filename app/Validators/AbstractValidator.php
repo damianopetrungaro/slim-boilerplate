@@ -2,59 +2,56 @@
 
 namespace App\Validators;
 
-use Illuminate\Database\Capsule\Manager as DB;
 use Valitron\Validator;
+use Illuminate\Database\Capsule\Manager as DB;
 
 abstract class AbstractValidator
 {
+    protected $validator;
 
-	protected $validator;
+    public function __construct(Validator $validator)
+    {
+        $this->addCustomRules();
+        $this->validator = $validator;
+    }
 
+    abstract public function rules();
 
-	public function __construct(Validator $validator)
-	{
-		$this->addCustomRules();
-		$this->validator = $validator;
-	}
+    public function errors()
+    {
+        return $this->validator->errors();
+    }
 
-	abstract public function rules();
+    public function validate()
+    {
+        foreach ($this->rules() as $rule) {
+            $args = array_splice($rule, 0, count($rule), true);
+            call_user_func_array([$this->validator, 'rule'], $args);
+        }
 
-	public function errors()
-	{
-		return $this->validator->errors();
-	}
+        return $this->validator->validate();
+    }
 
-	public function validate()
-	{
-		foreach ($this->rules() as $rule) {
+    private function addCustomRules()
+    {
+        Validator::addRule('unique', function ($field, $value, array $params, array $fields) {
+            foreach ($params[0] as $table => $column) {
+                if ($result = DB::table($table)->where($column, $value)->get()) {
+                    return false;
+                }
+            }
 
-			$args = array_splice($rule, 0, count($rule), true);
-			call_user_func_array([$this->validator, 'rule'], $args);
-		}
+            return true;
+        }, 'must be unique in our database');
 
-		return $this->validator->validate();
-	}
+        Validator::addRule('exists', function ($field, $value, array $params, array $fields) {
+            foreach ($params[0] as $table => $column) {
+                if (!$result = DB::table($table)->where($column, $value)->get()) {
+                    return false;
+                }
+            }
 
-	private function addCustomRules()
-	{
-		Validator::addRule('unique', function ($field, $value, array $params, array $fields) {
-			foreach ($params[0] as $table => $column) {
-				if ($result = DB::table($table)->where($column, $value)->get()) {
-					return false;
-				}
-			}
-
-			return true;
-		}, "must be unique in our database");
-
-		Validator::addRule('exists', function ($field, $value, array $params, array $fields) {
-			foreach ($params[0] as $table => $column) {
-				if (!$result = DB::table($table)->where($column, $value)->get()) {
-					return false;
-				}
-			}
-
-			return true;
-		}, "must exists in our database");
-	}
+            return true;
+        }, 'must exists in our database');
+    }
 }

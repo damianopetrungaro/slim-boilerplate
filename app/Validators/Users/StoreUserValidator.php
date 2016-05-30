@@ -12,7 +12,7 @@ class StoreUserValidator extends AbstractValidator
             ['email', ['email']],
             ['unique', 'email', ['users' => 'email']],
             ['equals', 'password', 'password_confirmation'],
-            ['required', ['name', 'surname', 'email', 'password']]
+            ['required', ['name', 'surname', 'email', 'password']],
         ];
     }
 }

@@ -7,7 +7,6 @@ use Slim\Http\Response;
 
 class ApiResponse extends Response
 {
-
     public function errorValidation(array $data)
     {
         $response = [];
@@ -20,10 +19,8 @@ class ApiResponse extends Response
         return $this->withJson(['error' => $response], 400);
     }
 
-
     public function error($title, $message, $status, $data = [])
     {
-
         $response = [];
         $response['id'] = Uuid::uuid1();
         $response['title'] = $title;
@@ -33,7 +30,6 @@ class ApiResponse extends Response
 
         return $this->withJson(['error' => $response], $status);
     }
-
 
     public function success($data, $status = 200)
     {
