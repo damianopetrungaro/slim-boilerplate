@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-
 class GenericException extends \Exception
 {
     private $title;
@@ -21,7 +20,6 @@ class GenericException extends \Exception
     {
         return $this->title;
     }
-
 
     public function getDetails()
     {

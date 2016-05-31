@@ -48,10 +48,10 @@ class Manager
             $validationData->setIssuer($this->config['issuer']);
             $validationData->setAudience($this->config['audience']);
             $validationData->setId($this->config['id']);
-            if (!$token->validate($validationData)) {
+            if (! $token->validate($validationData)) {
                 return false;
             }
-            if (!$token->verify(new Sha256(), $this->config['sign'])) {
+            if (! $token->verify(new Sha256(), $this->config['sign'])) {
                 return false;
             }
 

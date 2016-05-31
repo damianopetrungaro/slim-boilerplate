@@ -39,7 +39,7 @@ class AuthController
 
     public function login(Request $request, LoginAuthValidator $validator)
     {
-        if (!$validator->validate()) {
+        if (! $validator->validate()) {
             return $this->apiResponse->errorValidation($validator->errors());
         }
 
@@ -59,7 +59,7 @@ class AuthController
 
     public function recovery(Request $request, RecoveryAuthValidator $validator)
     {
-        if (!$validator->validate()) {
+        if (! $validator->validate()) {
             return $this->apiResponse->errorValidation($validator->errors());
         }
 
@@ -74,7 +74,7 @@ class AuthController
 
     public function reset(Request $request, ResetAuthValidator $validator)
     {
-        if (!$validator->validate()) {
+        if (! $validator->validate()) {
             return $this->apiResponse->errorValidation($validator->errors());
         }
 

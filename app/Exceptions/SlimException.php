@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Acme\Handlers;
+namespace App\Exceptions;
 
+use Slim\Handlers\Error;
 use App\Responses\ApiResponse;
-use App\Exceptions\JWTException;
-use Slim\Handlers\Error as BaseError;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class Error extends BaseError
+class SlimException extends Error
 {
     public function __construct($displayErrorDetails)
     {

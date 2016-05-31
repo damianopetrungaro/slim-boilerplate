@@ -17,7 +17,7 @@ class Container extends App
     {
         $definitions = [
             'errorHandler' => function () {
-                return new \App\Acme\Handlers\Error(getenv('DEBUG'));
+                return new \App\Exceptions\SlimException(getenv('DEBUG'));
             },
             Validator::class => function () {
                 return new Validator($_POST, [], 'en');
