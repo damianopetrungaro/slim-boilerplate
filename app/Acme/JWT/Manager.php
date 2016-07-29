@@ -14,8 +14,7 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 
 class Manager
 {
-    public $token;
-    // private $token; MUST USE THIS
+    private $token;
     private $config = [];
 
     public function __construct(Request $request, array $config)
