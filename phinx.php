@@ -20,6 +20,7 @@ return [
             'user' => getenv('DB_USER') ?: 'root',
             'pass' => getenv('DB_PASSWORD') ?: 'root',
             'port' => getenv('DB_PORT') ?: '3306',
+            'unix_socket' => getenv('DB_UNIX_SOCKET') ?: null,
         ],
         'prod' => [
             'adapter' => 'mysql',
@@ -28,6 +29,7 @@ return [
             'user' => getenv('DB_USER') ?: 'root',
             'pass' => getenv('DB_PASSWORD') ?: 'root',
             'port' => getenv('DB_PORT') ?: '3306',
+            'unix_socket' => getenv('DB_UNIX_SOCKET') ?: null,
         ],
         'test' => [
             'adapter' => 'mysql',
@@ -36,6 +38,7 @@ return [
             'user' => getenv('DB_USER') ?: 'root',
             'pass' => getenv('DB_PASSWORD') ?: 'root',
             'port' => getenv('DB_PORT') ?: '3306',
+            'unix_socket' => getenv('DB_UNIX_SOCKET') ?: null,
         ],
     ],
 ];

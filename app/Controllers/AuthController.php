@@ -2,10 +2,15 @@
 
 namespace App\Controllers;
 
+use App\Acme\Helpers\Mailer;
+use App\Acme\JWT\JWT;
+use Illuminate\Database\Capsule\Manager;
+use Illuminate\Database\Connection;
+use Illuminate\Database\DatabaseManager;
+use Illuminate\Support\Facades\DB;
 use Slim\Http\Request;
 use App\Services\AuthService;
 use App\Responses\ApiResponse;
-use App\Acme\JWT\Manager as JWT;
 use App\Exceptions\GenericException;
 use App\Transformers\Users\UserTransformer;
 use App\Validators\Auth\ResetAuthValidator;
@@ -39,7 +44,7 @@ class AuthController
 
     public function login(Request $request, LoginAuthValidator $validator)
     {
-        if (! $validator->validate()) {
+        if (!$validator->validate()) {
             return $this->apiResponse->errorValidation($validator->errors());
         }
 
@@ -57,15 +62,18 @@ class AuthController
         //@TODO: Think a blacklist
     }
 
-    public function recovery(Request $request, RecoveryAuthValidator $validator)
+    public function recovery(Request $request, RecoveryAuthValidator $validator, Connection $db, Mailer $mailer)
     {
-        if (! $validator->validate()) {
+        if (!$validator->validate()) {
             return $this->apiResponse->errorValidation($validator->errors());
         }
 
         try {
-            $this->authService->recovery($request->getParam('email'));
+            $db->beginTransaction();
+            $this->authService->recovery($request->getParam('email'), $db, $mailer);
+            $db->commit();
         } catch (GenericException $e) {
+            $db->rollBack();
             return $this->apiResponse->error($e->getTitle(), $e->getDetails(), $e->getStatus());
         }
 
@@ -74,7 +82,7 @@ class AuthController
 
     public function reset(Request $request, ResetAuthValidator $validator)
     {
-        if (! $validator->validate()) {
+        if (!$validator->validate()) {
             return $this->apiResponse->errorValidation($validator->errors());
         }
 

@@ -6,7 +6,7 @@ class JWTException extends \Exception
 {
     private $title;
 
-    public function __construct($title, $message, $code)
+    public function __construct($title, $message, $code = null)
     {
         $this->title = $title;
         parent::__construct($message, $code);

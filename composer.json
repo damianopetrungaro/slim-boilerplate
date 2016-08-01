@@ -2,7 +2,6 @@
   "name": "damianopetrungaro/slim-boilerplate",
   "require": {
     "slim/slim": "^3.0",
-    "php-di/slim-bridge": "^1.0",
     "vlucas/valitron": "^1.2",
     "ramsey/uuid": "^3.4",
     "vlucas/phpdotenv": "^2.2",

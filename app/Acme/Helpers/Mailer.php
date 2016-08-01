@@ -8,7 +8,7 @@ use Swift_SmtpTransport;
 
 class Mailer
 {
-    public static function send($subject, array $to, $body)
+    public function send($subject, array $to, $body)
     {
         $transport = Swift_SmtpTransport::newInstance(getenv('SMTP_HOST'), getenv('SMTP_PORT'), getenv('SMTP_ENCRYPTION'))
             ->setUsername(getenv('SMTP_USERNAME'))

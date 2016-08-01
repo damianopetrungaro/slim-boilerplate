@@ -1,15 +1,15 @@
 <?php
 
-require __DIR__.'/../bootstrap/app.php';
+require __DIR__ . '/../bootstrap/app.php';
 
-use App\Providers\Container;
+$app = new \Slim\App();
 
-$app = new Container();
+require __DIR__ . '/../bootstrap/dependencies.php';
 
-$routes = scandir(__DIR__.'/../app/Routes/');
+$routes = scandir(__DIR__ . '/../app/Routes/');
 foreach ($routes as $route) {
     if (strpos($route, '.php')) {
-        require __DIR__.'/../app/Routes/'.$route;
+        require __DIR__ . '/../app/Routes/' . $route;
     }
 }
 
