@@ -5,7 +5,7 @@ A PHP boilerplate based on [Slim Framework](http://www.slimframework.com/), for 
 You need [composer](http://getcomposer.org) and [git](https://git-scm.com/) for download and install the repository.
 
 ```shell
-$ git clone damianopetrungaro/slim-boilerplate
+$ git clone https://github.com/damianopetrungaro/slim-boilerplate.git
 $ php composer.phar install
 ```
 Edit the `.env.example` to `.env` and override it with your credentials.
