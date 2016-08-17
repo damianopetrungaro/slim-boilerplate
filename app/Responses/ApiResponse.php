@@ -19,10 +19,10 @@ class ApiResponse extends Response
         return $this->withJson(['error' => $response], 400);
     }
 
-    public function error($title, $message, $status, $data = [])
+    public function error($title, $message, $status, $data = [], Uuid $uuid = null)
     {
         $response = [];
-        $response['id'] = Uuid::uuid1();
+        $response['id'] = ($uuid) ? Uuid::uuid1() : $uuid;
         $response['title'] = $title;
         $response['detail'] = $message;
         $response['source']['pointer'] = $data;

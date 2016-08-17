@@ -6,8 +6,15 @@ $container['response'] = function () {
     return new \App\Responses\ApiResponse();
 };
 
-$container['errorHandler'] = function () {
-    return function ($request, \App\Responses\ApiResponse $response, \Exception $exception) {
+$container['logger'] = function () {
+    $logger = new \Monolog\Logger('app');
+    $file = new \Monolog\Handler\RotatingFileHandler("../logs/app.log", \Monolog\Logger::DEBUG);
+    $logger->pushHandler($file);
+    return $logger;
+};
+
+$container['errorHandler'] = function (\Slim\Container $container) {
+    return function ($request, \App\Responses\ApiResponse $response, $exception) use ($container) {
 
         if ($exception instanceof App\Exceptions\GenericException) {
             return $response->error($exception->getTitle(), $exception->getDetails(), $exception->getStatus());
@@ -19,7 +26,18 @@ $container['errorHandler'] = function () {
             return $response->error($exception->getTitle(), $exception->getMessage(), 500);
         }
 
-        return $response->error('Something went wrong', (getenv('DEBUG')) ? $exception->getMessage() : 'Contact the admin', 500);
+        // Add custom error here
+
+        $uuid = \Ramsey\Uuid\Uuid::uuid1();
+
+        $container['logger']->addError($exception->getMessage(), [
+            'uuid' => $uuid->toString(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
+            'trace' => $exception->getTraceAsString()
+        ]);
+
+        return $response->error('Something went wrong', (getenv('DEBUG')) ? $exception->getMessage() : 'Contact the admin', 500, [], $uuid);
     };
 };
 
@@ -33,6 +51,10 @@ $container['notAllowedHandler'] = function () {
     return function ($request, \App\Responses\ApiResponse $response, $methods) {
         return $response->error('Method not allowed', "Sorry but this method is not available for this resource", 405, ['Method allowed for this endpoint are: ' . implode(', ', $methods)]);
     };
+};
+
+$container['phpErrorHandler'] = function (\Slim\Container $container) {
+    return $container['errorHandler'];
 };
 
 $container['validator'] = function () {
@@ -57,7 +79,7 @@ $container['authService'] = function (\Slim\Container $container) {
     return new \App\Services\AuthService($userRepository, $jwt);
 };
 
-$container['db'] = function () use ($db){
+$container['db'] = function () use ($db) {
     return $db->getConnection();
 };
 

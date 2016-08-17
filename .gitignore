@@ -4,3 +4,5 @@ composer.phar
 vendor
 .env
 .php_cs.cache
+logs
+!logs/.gitkeep
