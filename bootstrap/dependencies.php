@@ -57,8 +57,9 @@ $container['phpErrorHandler'] = function (\Slim\Container $container) {
     return $container['errorHandler'];
 };
 
-$container['validator'] = function () {
-    return new Valitron\Validator($_POST, [], 'en');
+$container['validator'] = function (\Slim\Container $container) {
+    $request = $container->get('request');
+    return new Valitron\Validator($request->getParsedBody(), [], 'en');
 };
 
 $container['jwt'] = function (\Slim\Container $container) {
