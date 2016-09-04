@@ -34,7 +34,7 @@ abstract class AbstractValidator
 
     private function addCustomRules()
     {
-        Validator::addRule('unique', function ($field, $value, array $params, array $fields) {
+        Validator::addRule('unique', function ($field, $value, array $params, $fields) {
             foreach ($params[0] as $table => $column) {
                 if ($result = DB::table($table)->where($column, $value)->get()->toArray()) {
                     return false;
@@ -44,7 +44,7 @@ abstract class AbstractValidator
             return true;
         }, 'must be unique in our database');
 
-        Validator::addRule('exists', function ($field, $value, array $params, array $fields) {
+        Validator::addRule('exists', function ($field, $value, array $params, $fields) {
             foreach ($params[0] as $table => $column) {
                 if (! $result = DB::table($table)->where($column, $value)->get()->toArray()) {
                     return false;
