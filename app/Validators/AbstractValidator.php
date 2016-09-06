@@ -36,7 +36,7 @@ abstract class AbstractValidator
     {
         Validator::addRule('unique', function ($field, $value, array $params, $fields) {
             foreach ($params[0] as $table => $column) {
-                if ($result = DB::table($table)->where($column, $value)->get()->toArray()) {
+                if ($result = DB::table($table)->where($column, '=', $value)->get()) {
                     return false;
                 }
             }
@@ -46,7 +46,7 @@ abstract class AbstractValidator
 
         Validator::addRule('exists', function ($field, $value, array $params, $fields) {
             foreach ($params[0] as $table => $column) {
-                if (! $result = DB::table($table)->where($column, $value)->get()->toArray()) {
+                if (! $result = DB::table($table)->where($column, '=', $value)->get()) {
                     return false;
                 }
             }
