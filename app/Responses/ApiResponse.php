@@ -22,7 +22,7 @@ class ApiResponse extends Response
     public function error($title, $message, $status, $data = [], Uuid $uuid = null)
     {
         $response = [];
-        $response['id'] = ($uuid) ? Uuid::uuid1() : $uuid;
+        $response['id'] = ($uuid == null) ? Uuid::uuid1() : $uuid;
         $response['title'] = $title;
         $response['detail'] = $message;
         $response['source']['pointer'] = $data;
