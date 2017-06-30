@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Transformers\Users;
 
 use App\Transformers\AbstractTransformer;
 
 class UserTransformer extends AbstractTransformer
 {
-    public function item($user)
+    public function item($user): array
     {
         return [
             'id' => $user['id'],
@@ -17,7 +19,7 @@ class UserTransformer extends AbstractTransformer
             ],
             'links' => [
                 [
-                    'self' => '/users/'.$user['id'],
+                    'self' => '/users/' . $user['id'],
                     'related' => [],
                 ],
             ],

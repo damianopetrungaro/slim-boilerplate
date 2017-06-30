@@ -1,55 +1,139 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories\Users;
 
 use App\Models\User;
 
 class UserEloquentRepository implements UserRepositoryInterface
 {
+    /**
+     * @var User
+     */
     protected $model;
 
+    /**
+     * UserEloquentRepository constructor.
+     *
+     * !!!!!!!!!!!!!!!
+     * NOTE: Use Query Builder is a better approach instead of using a Model with active record
+     * !!!!!!!!!!!!!!!
+     *
+     * @param User $model
+     */
     public function __construct(User $model)
     {
         $this->model = $model;
     }
 
-    public function index($columns = ['*'])
+    /**
+     * List all the Users
+     *
+     * @return array
+     */
+    public function index(): array
     {
-        return $this->model->get()->all($columns);
+        return $this->model->get()->all();
     }
 
-    public function show($id, $columns = ['*'])
+
+    /**
+     * Get a specific User
+     *
+     * @param int $id
+     *
+     * @return User|null
+     */
+    public function show(int $id):? User
     {
-        return $this->model->find($id, $columns);
+        $user = $this->model->find($id);
+
+        return $this->returnUserInstanceOrNull($user);
     }
 
-    public function store(array $data)
+    /**
+     * Add a new User
+     *
+     * @param array $data
+     *
+     * @return User|null
+     */
+    public function store(array $data):? User
     {
-        return $this->model->create($data);
+        $user = $this->model->create($data);
+
+        return $this->returnUserInstanceOrNull($user);
     }
 
-    public function update($id, array $data)
+    /**
+     * Update data of a specific User
+     *
+     * @param int $id
+     * @param array $data
+     *
+     * @return bool
+     */
+    public function update(int $id, array $data): bool
     {
-        return $this->model->where('id', $id)->update($data);
+        return (bool)$this->model->where('id', $id)->update($data);
     }
 
-    public function delete($id)
+    /**
+     * Delete an User
+     *
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function delete(int $id): bool
     {
-        return $this->model->where('id', $id)->delete();
+        return (bool)$this->model->where('id', $id)->delete();
     }
 
-    public function getByEmailAndPassword($email, $password, $columns = ['*'])
+    /**
+     * Get a user by email
+     *
+     * @param string $email
+     *
+     * @return User|null
+     */
+    public function getByEmail(string $email):?User
     {
-        return $this->model->where('email', $email)->where('password', $password)->first($columns);
+        $user = $this->model->where('email', $email)->first();
+
+        return $this->returnUserInstanceOrNull($user);
     }
 
-    public function getByEmail($email, $columns = ['*'])
+    /**
+     * Return an user by email and a token
+     *
+     * @param string $email
+     * @param string $token
+     *
+     * @return User|null
+     */
+    public function getByEmailAndResetToken(string $email, string $token):? User
     {
-        return $this->model->where('email', $email)->first($columns);
+        $user = $this->model->where('email', $email)->where('reset_password', $token)->first();
+
+        return $this->returnUserInstanceOrNull($user);
     }
 
-    public function getByEmailAndResetToken($email, $token, $columns = ['*'])
+    /**
+     * Return User instance or null
+     *
+     * @param $user
+     *
+     * @return User|null
+     */
+    private function returnUserInstanceOrNull($user):? User
     {
-        return $this->model->where('email', $email)->where('reset_password', $token)->first($columns);
+        if ($user instanceof User) {
+
+            return $user;
+        }
+
+        return null;
     }
 }

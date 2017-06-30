@@ -12,7 +12,7 @@ class UsersSeed extends AbstractSeed
             $data[] = [
                 'name' => $faker->firstName,
                 'surname' => $faker->lastName,
-                'password' => md5($faker->password),
+                'password' => password_hash($faker->password, PASSWORD_BCRYPT),
                 'email' => $faker->email,
                 'created_at' => date('Y-m-d H:i:s'),
             ];

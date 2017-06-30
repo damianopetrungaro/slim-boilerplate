@@ -1,22 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories\Users;
+
+use App\Models\User;
 
 interface UserRepositoryInterface
 {
-    public function delete($id);
+    public function delete(int $id): bool;
 
-    public function store(array $data);
+    public function store(array $data):? User;
 
-    public function index($columns = '*');
+    public function index(): array;
 
-    public function update($id, array $data);
+    public function update(int $id, array $data): bool;
 
-    public function show($id, $columns = '*');
+    public function show(int $id):? User;
 
-    public function getByEmail($email);
+    public function getByEmail(string $email):? User;
 
-    public function getByEmailAndPassword($email, $password);
-
-    public function getByEmailAndResetToken($email, $token);
+    public function getByEmailAndResetToken(string $email, string $token):? User;
 }

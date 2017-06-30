@@ -1,10 +1,7 @@
 <?php
 
-require __DIR__ . '/../bootstrap/app.php';
-
-$app = new \Slim\App();
-
-require __DIR__ . '/../bootstrap/dependencies.php';
+$container = require __DIR__ . '/../bootstrap/app.php';
+$app = new \Slim\App($container);
 
 $routes = scandir(__DIR__ . '/../app/Routes/');
 foreach ($routes as $route) {

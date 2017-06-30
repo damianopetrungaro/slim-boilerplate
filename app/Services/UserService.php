@@ -1,37 +1,60 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Repositories\Users\UserRepositoryInterface;
 
 class UserService
 {
+    /**
+     * @var UserRepositoryInterface
+     */
     private $userRepository;
 
+    /**
+     * UserService constructor.
+     *
+     * @param UserRepositoryInterface $userRepository
+     */
     public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * Add a new USer
+     *
+     * @param array $input
+     *
+     * @return \App\Models\User|null
+     */
     public function store(array $input)
     {
         $data = [];
-        $data['password'] = md5($input['password']); // Hash password (better if you use a key for hash)
+        $data['password'] = password_hash($input['password'], PASSWORD_BCRYPT);
         $data['name'] = $input['name'];
         $data['surname'] = $input['surname'];
         $data['email'] = $input['email'];
-        $user = $this->userRepository->store($data);
 
-        return $user;
+        return $this->userRepository->store($data);
     }
 
-    public function update($id, array $input)
+    /**
+     * Update user info
+     *
+     * @param $id
+     * @param array $input
+     *
+     * @return \App\Models\User|null
+     */
+    public function update(int $id, array $input)
     {
         $data = [];
         $data['name'] = $input['name'];
         $data['surname'] = $input['surname'];
-        $user = $this->userRepository->update($id, $data);
 
-        return $user;
+        return $this->userRepository->update($id, $data);
     }
 }

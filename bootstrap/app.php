@@ -1,10 +1,12 @@
 <?php
 
 require __DIR__ . '/../vendor/autoload.php';
+$container = require __DIR__ . '/container.php';
 
 use Dotenv\Dotenv;
 
 $dotenv = new Dotenv('./../');
 $dotenv->load();
+$container->get('db');
 
-require __DIR__ . '/database.php';
+return $container;

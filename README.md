@@ -1,6 +1,11 @@
 # Slim Boilerplate
 A PHP boilerplate based on [Slim Framework](http://www.slimframework.com/), for start projects with [Eloquent ORM](https://laravel.com/docs/5.2/eloquent), Validation, Auth (JWT), Repositories and Transformers ready.
 
+This boilerplate is written for RAD (Rapid Application Development).
+
+Anyway it introduces some layer that will help you if the application will grow.
+In this case i suggest you to drop Eloquent (or at least use only the query builder and use interfaces instead of Domain Model that extends Eloquent Model).
+
 # Installation and Setup
 You need [composer](http://getcomposer.org) and [git](https://git-scm.com/) for download and install the repository.
 

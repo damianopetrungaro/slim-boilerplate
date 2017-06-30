@@ -14,7 +14,7 @@ class CreateUsersTable extends AbstractMigration
         $users->addColumn('surname', 'string', ['limit' => 35]);
         $users->addColumn('password', 'string', ['limit' => 255]);
         $users->addColumn('email', 'string', ['limit' => 150]);
-        $users->addColumn('reset_password', 'string', ['limit' => 255]);
+        $users->addColumn('reset_password', 'string', ['limit' => 255, 'null' => true]);
         $users->addColumn('updated_at', 'datetime', ['null' => true]);
         $users->addColumn('created_at', 'datetime', ['null' => true]);
         $users->addIndex('email', 'unique');

@@ -1,26 +1,56 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Acme\JWT;
 
-use RuntimeException;
-use Slim\Http\Request;
-use Lcobucci\JWT\Parser;
-use Lcobucci\JWT\Builder;
+use App\Exceptions\JWTException;
 use BadMethodCallException;
 use InvalidArgumentException;
-use App\Exceptions\JWTException;
-use Lcobucci\JWT\ValidationData;
+use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
+use Lcobucci\JWT\ValidationData;
+use RuntimeException;
+use Slim\Http\Request;
 
 class JWT
 {
+    /**
+     * @var string
+     */
     private $token;
+    /**
+     * @var Sha256
+     */
     private $sha256;
+    /**
+     * @var Parser
+     */
     private $parser;
+    /**
+     * @var Builder
+     */
     private $builder;
+    /**
+     * @var ValidationData
+     */
     private $validator;
+    /**
+     * @var array
+     */
     private $config = [];
 
+    /**
+     * JWT constructor.
+     *
+     * @param Request $request
+     * @param Builder $builder
+     * @param Sha256 $sha256
+     * @param Parser $parser
+     * @param ValidationData $validator
+     * @param array $config
+     */
     public function __construct(Request $request, Builder $builder, Sha256 $sha256, Parser $parser, ValidationData $validator, array $config)
     {
         $this->config = $config;
@@ -31,7 +61,14 @@ class JWT
         $this->validator = $validator;
     }
 
-    public function encode(array $data)
+    /**
+     * Return an encoded jwt
+     *
+     * @param array $data
+     *
+     * @return string
+     */
+    public function encode(array $data): string
     {
         $token = $this->builder->setIssuer($this->config['issuer'])
             ->setAudience($this->config['audience'])
@@ -47,7 +84,14 @@ class JWT
         return $token->getToken()->__toString();
     }
 
-    public function decode()
+    /**
+     * Decode the token and return its content
+     *
+     * @return array
+     *
+     * @throws JWTException
+     */
+    public function decode(): array
     {
         try {
             $token = $this->parser->parse($this->token);
@@ -60,7 +104,7 @@ class JWT
             if (!$token->verify($this->sha256, $this->config['sign'])) {
                 throw new JWTException('Invalid Token', 'The token is empty or not encrypted correctly');
             }
-            
+
             return $token->getClaims();
         } catch (InvalidArgumentException $e) {
             throw new JWTException('Invalid Token', $e->getMessage(), $e->getCode());

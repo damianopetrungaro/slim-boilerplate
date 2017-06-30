@@ -1,12 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Validators\Auth;
 
 use App\Validators\AbstractValidator;
 
 class LoginAuthValidator extends AbstractValidator
 {
-    public function rules()
+    /**
+     * {@inheritdoc}
+     */
+    public function rules():array
     {
         return [
             ['required', ['password', 'email']],

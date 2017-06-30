@@ -1,37 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Validators;
 
-use Valitron\Validator;
 use Illuminate\Database\Capsule\Manager as DB;
+use Valitron\Validator;
 
 abstract class AbstractValidator
 {
+    /**
+     * @var Validator
+     */
     protected $validator;
 
+    /**
+     * AbstractValidator constructor.
+     *
+     * @param Validator $validator
+     */
     public function __construct(Validator $validator)
     {
         $this->addCustomRules();
         $this->validator = $validator;
     }
 
-    abstract public function rules();
-
-    public function errors()
-    {
-        return $this->validator->errors();
-    }
-
-    public function validate()
-    {
-        foreach ($this->rules() as $rule) {
-            $args = array_splice($rule, 0, count($rule), true);
-            call_user_func_array([$this->validator, 'rule'], $args);
-        }
-
-        return $this->validator->validate();
-    }
-
+    /**
+     * Add custom rules to the validator
+     *
+     * @return void
+     */
     private function addCustomRules()
     {
         Validator::addRule('unique', function ($field, $value, array $params, $fields) {
@@ -40,7 +38,6 @@ abstract class AbstractValidator
                     return false;
                 }
             }
-
             return true;
         }, 'must be unique in our database');
 
@@ -50,8 +47,45 @@ abstract class AbstractValidator
                     return false;
                 }
             }
-
             return true;
         }, 'must exists in our database');
     }
+
+    /**
+     * Return the list of errors
+     *
+     * @return array|null
+     */
+    public function errors():?array
+    {
+        $errors = $this->validator->errors();
+
+        if (is_array($errors)) {
+            return $errors;
+        }
+
+        return null;
+    }
+
+    /**
+     * Validate and return true id valid, otherwise false
+     *
+     * @return bool
+     */
+    public function validate(): bool
+    {
+        foreach ($this->rules() as $rule) {
+            $args = array_splice($rule, 0, count($rule), true);
+            call_user_func_array([$this->validator, 'rule'], $args);
+        }
+
+        return $this->validator->validate();
+    }
+
+    /**
+     * Array of rules
+     *
+     * @return array
+     */
+    abstract public function rules(): array;
 }

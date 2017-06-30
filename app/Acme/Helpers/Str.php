@@ -1,11 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Acme\Helpers;
 
 class Str
 {
-    public static function random($length)
+    /**
+     * Return a random string by a specific length
+     *
+     * @param int $length
+     *
+     * @return string
+     */
+    public static function random(int $length): string
     {
-        return substr(md5(rand()), 0, $length);
+        return substr(md5((string)mt_rand()), 0, $length);
     }
 }
