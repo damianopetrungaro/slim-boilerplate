@@ -18,12 +18,12 @@ Edit the `.env.example` to `.env` and override it with your credentials.
 $ php vendor/bin/phinx migrate
 ```
 #### Container
-All the object into the container are setted into the `bootstrap/dependecies.php` file
+All the object into the container are setted into the `bootstrap/container.php` file
 
 #### Info
 The routes are into the `app/Routes`, you can add all the .php file you want, each file will be read by slim for catch all the routes.
 
-The exception handler is overriden into the `bootstrap/dependecies.php` file.
+The exception handler is overriden into the `bootstrap/container.php` file.
 For more details, info or bugs, just open a  new issue to to [repository issue tracker](https://github.com/damianopetrungaro/slim-boilerplate/issues).
 
 
