@@ -1,11 +1,12 @@
 {
   "name": "damianopetrungaro/slim-boilerplate",
   "require": {
+    "php": ">=7.0",
     "slim/slim": "^3.0",
     "vlucas/valitron": "^1.2",
     "ramsey/uuid": "^3.4",
     "vlucas/phpdotenv": "^2.2",
-    "illuminate/database": "^5.2",
+    "illuminate/database": "^5.4",
     "robmorgan/phinx": "^0.5.3",
     "fzaninotto/faker": "^1.6",
     "lcobucci/jwt": "^3.1",
